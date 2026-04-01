@@ -1,0 +1,4 @@
+rootProject.name = 'llm-chat-app'
+apply from: file("../node_modules/@react-native/gradle-plugin/react-native-gradle-plugin.gradle")
+
+include ':app'
