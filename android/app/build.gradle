@@ -21,10 +21,10 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('release.keystore')
-            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "password"
-            keyAlias System.getenv("KEY_ALIAS") ?: "key"
-            keyPassword System.getenv("KEY_PASSWORD") ?: "password"
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
         }
     }
 

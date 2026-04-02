@@ -83,10 +83,26 @@ jobs:
           ./gradlew assembleRelease --no-daemon
         continue-on-error: true
 
+      - name: Find and Upload Release APK
+        if: always()
+        run: |
+          # Find the release APK (handle both signed and unsigned variants)
+          if [ -f android/app/build/outputs/apk/release/app-release.apk ]; then
+            echo "Found app-release.apk"
+            ls -lh android/app/build/outputs/apk/release/app-release.apk
+          elif [ -f android/app/build/outputs/apk/release/app-release-unsigned.apk ]; then
+            echo "Found app-release-unsigned.apk"
+            ls -lh android/app/build/outputs/apk/release/app-release-unsigned.apk
+          else
+            echo "No release APK found, listing directory:"
+            find android/app/build/outputs -name "*.apk" -o -name "*.aab" 2>/dev/null || echo "No APK/AAB files found"
+          fi
+
       - name: Upload Release APK
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: llm-chat-app-release
-          path: android/app/build/outputs/apk/release/app-release.apk
+          path: android/app/build/outputs/apk/release/*.apk
           retention-days: 30
+        continue-on-error: true
